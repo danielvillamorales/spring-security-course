@@ -2,7 +2,6 @@ package com.cursos.api.spring_security_course.controller;
 
 import com.cursos.api.spring_security_course.dto.SaveProduct;
 import com.cursos.api.spring_security_course.persistance.entity.Product;
-import com.cursos.api.spring_security_course.service.ProductService;
 import com.cursos.api.spring_security_course.service.impl.ProductServiceImpl;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
