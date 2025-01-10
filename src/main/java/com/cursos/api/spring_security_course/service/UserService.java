@@ -6,4 +6,6 @@ import jakarta.validation.Valid;
 
 public interface UserService {
     User registerOneCustomer(@Valid SaveUser newUser);
+
+    User findByUsername(String username);
 }

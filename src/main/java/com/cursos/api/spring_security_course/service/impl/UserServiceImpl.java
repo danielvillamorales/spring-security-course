@@ -2,6 +2,7 @@ package com.cursos.api.spring_security_course.service.impl;
 
 import com.cursos.api.spring_security_course.dto.SaveUser;
 import com.cursos.api.spring_security_course.exception.InvalidPasswordencoder;
+import com.cursos.api.spring_security_course.exception.NotFoundException;
 import com.cursos.api.spring_security_course.persistance.entity.User;
 import com.cursos.api.spring_security_course.persistance.enums.Role;
 import com.cursos.api.spring_security_course.persistance.repository.UserRepository;
@@ -30,6 +31,11 @@ public class UserServiceImpl implements UserService {
                         .password(passwordEncoder.encode(newUser.getPassword()))
                         .build()
         );
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username).orElseThrow(() -> new NotFoundException("User not found"));
     }
 
     private void validatePassword(SaveUser newUser) {
