@@ -1,5 +1,7 @@
 package com.cursos.api.spring_security_course.config.security;
 
+import com.cursos.api.spring_security_course.config.security.filter.JwtAutheticationFilter;
+import io.jsonwebtoken.Jwt;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @AllArgsConstructor
 @Configuration
@@ -17,7 +20,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class HttpSecurityConfig {
 
     private final AuthenticationProvider daoAuthenticationProvider;
-
+    private final JwtAutheticationFilter jwtAutheticationFilter;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.csrf(AbstractHttpConfigurer::disable)
@@ -25,6 +28,7 @@ public class HttpSecurityConfig {
                         SessionCreationPolicy.STATELESS
                 ))
                 .authenticationProvider(daoAuthenticationProvider)
+                .addFilterBefore(jwtAutheticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(
                         auth -> {
                             auth.requestMatchers(HttpMethod.POST, "/customers").permitAll();

@@ -2,6 +2,7 @@ package com.cursos.api.spring_security_course.controller;
 
 import com.cursos.api.spring_security_course.dto.AuthenticationRequest;
 import com.cursos.api.spring_security_course.dto.AuthenticationResponse;
+import com.cursos.api.spring_security_course.persistance.entity.User;
 import com.cursos.api.spring_security_course.service.auth.AuthenticationService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -24,5 +25,10 @@ public class AuthenticationController {
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody @Valid AuthenticationRequest request) {
         return new ResponseEntity<>(authenticationService.login(request), HttpStatus.OK);
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<User> findMyProfile(){
+        return new ResponseEntity<>(authenticationService.findLoggedInUser(), HttpStatus.OK);
     }
 }

@@ -4,6 +4,7 @@ import com.cursos.api.spring_security_course.dto.AuthenticationRequest;
 import com.cursos.api.spring_security_course.dto.AuthenticationResponse;
 import com.cursos.api.spring_security_course.dto.RegisterUser;
 import com.cursos.api.spring_security_course.dto.SaveUser;
+import com.cursos.api.spring_security_course.exception.NotFoundException;
 import com.cursos.api.spring_security_course.persistance.entity.User;
 import com.cursos.api.spring_security_course.service.UserService;
 import jakarta.validation.Valid;
@@ -11,6 +12,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -59,5 +61,12 @@ public class AuthenticationService {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public User findLoggedInUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getPrincipal().toString();
+        return userService.findByUsername(username);
+
     }
 }
