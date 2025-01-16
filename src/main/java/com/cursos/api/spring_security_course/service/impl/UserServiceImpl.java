@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
                 User.builder()
                         .name(newUser.getName())
                         .username(newUser.getUsername())
-                        .role(Role.ROLE_CUSTOMER)
+                        .role(Role.CUSTOMER)
                         .password(passwordEncoder.encode(newUser.getPassword()))
                         .build()
         );

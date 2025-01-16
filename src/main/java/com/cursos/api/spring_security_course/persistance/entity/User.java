@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.stream.Stream;
 
 @Builder
 @Data
@@ -32,12 +33,19 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-
+    /**
+     * este metodo es usado para listar los permisos y roles del usuario
+     * @return una lista de permisos y roles
+     */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (role == null) return Collections.emptyList();
         if (role.getPermissions() == null) return Collections.emptyList();
-        return role.getPermissions().stream().map(p -> new SimpleGrantedAuthority(p.name())).toList();
+        return Stream.concat(
+                role.getPermissions().stream().map(p ->
+                        new SimpleGrantedAuthority(p.name())), /* Stream of permissions */
+                Stream.of(new SimpleGrantedAuthority("ROLE_" + role.name()) /* Stream of role */)
+        ).toList();
     }
 
     @Override
