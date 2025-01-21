@@ -3,11 +3,13 @@ package com.cursos.api.spring_security_course.service.impl;
 import com.cursos.api.spring_security_course.dto.SaveUser;
 import com.cursos.api.spring_security_course.exception.InvalidPasswordencoder;
 import com.cursos.api.spring_security_course.exception.NotFoundException;
+import com.cursos.api.spring_security_course.persistance.entity.Role;
 import com.cursos.api.spring_security_course.persistance.entity.User;
-import com.cursos.api.spring_security_course.persistance.enums.Role;
 import com.cursos.api.spring_security_course.persistance.repository.UserRepository;
+import com.cursos.api.spring_security_course.service.RoleService;
 import com.cursos.api.spring_security_course.service.UserService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -20,14 +22,17 @@ public class UserServiceImpl implements UserService {
 
     private final PasswordEncoder passwordEncoder;
 
+    private final RoleService roleService;
+
     @Override
     public User registerOneCustomer(SaveUser newUser) {
         validatePassword(newUser);
+        Role defaultRole = roleService.findDefaultRole();
         return userRepository.save(
                 User.builder()
                         .name(newUser.getName())
                         .username(newUser.getUsername())
-                        .role(Role.CUSTOMER)
+                        .role(defaultRole)
                         .password(passwordEncoder.encode(newUser.getPassword()))
                         .build()
         );

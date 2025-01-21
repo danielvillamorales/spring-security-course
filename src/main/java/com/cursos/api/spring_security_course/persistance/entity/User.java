@@ -1,6 +1,5 @@
 package com.cursos.api.spring_security_course.persistance.entity;
 
-import com.cursos.api.spring_security_course.persistance.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,11 +29,13 @@ public class User implements UserDetails {
     private String name;
     private String password;
 
-    @Enumerated(EnumType.STRING)
+    @ManyToOne
+    @JoinColumn(name = "role_id")
     private Role role;
 
     /**
      * este metodo es usado para listar los permisos y roles del usuario
+     *
      * @return una lista de permisos y roles
      */
     @Override
@@ -43,8 +44,8 @@ public class User implements UserDetails {
         if (role.getPermissions() == null) return Collections.emptyList();
         return Stream.concat(
                 role.getPermissions().stream().map(p ->
-                        new SimpleGrantedAuthority(p.name())), /* Stream of permissions */
-                Stream.of(new SimpleGrantedAuthority("ROLE_" + role.name()) /* Stream of role */)
+                        new SimpleGrantedAuthority(p.getOperation().getName())), /* Stream of permissions */
+                Stream.of(new SimpleGrantedAuthority("ROLE_" + role.getName()) /* Stream of role */)
         ).toList();
     }
 

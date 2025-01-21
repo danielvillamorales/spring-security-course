@@ -4,7 +4,6 @@ import com.cursos.api.spring_security_course.dto.AuthenticationRequest;
 import com.cursos.api.spring_security_course.dto.AuthenticationResponse;
 import com.cursos.api.spring_security_course.dto.RegisterUser;
 import com.cursos.api.spring_security_course.dto.SaveUser;
-import com.cursos.api.spring_security_course.exception.NotFoundException;
 import com.cursos.api.spring_security_course.persistance.entity.User;
 import com.cursos.api.spring_security_course.service.UserService;
 import jakarta.validation.Valid;
@@ -31,7 +30,7 @@ public class AuthenticationService {
                 .id(user.getId())
                 .name(user.getName())
                 .username(user.getUsername())
-                .role(user.getRole().name())
+                .role(user.getRole().getName())
                 .jwt(jwtService.generateToken(user, generatedExtraClaims(user)))
                 .build();
 
@@ -39,7 +38,7 @@ public class AuthenticationService {
 
     private Map<String, Object> generatedExtraClaims(User user) {
         return Map.of("name", user.getName(),
-                "role", user.getRole().name(),
+                "role", user.getRole().getName(),
                 "authorities", user.getAuthorities());
     }
 
