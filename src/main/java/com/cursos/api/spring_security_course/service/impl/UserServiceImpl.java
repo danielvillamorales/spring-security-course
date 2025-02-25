@@ -9,7 +9,6 @@ import com.cursos.api.spring_security_course.persistance.repository.UserReposito
 import com.cursos.api.spring_security_course.service.RoleService;
 import com.cursos.api.spring_security_course.service.UserService;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
