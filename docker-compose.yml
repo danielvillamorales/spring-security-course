@@ -1,0 +1,31 @@
+version: '3.1'
+
+services:
+
+  db:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: course
+    container_name: mysql
+    volumes:
+      - mysql-volume:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD-SHELL", "mysqladmin ping -h localhost -u root -ppassword || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: .
+    image: backend-image
+    ports:
+      - 8585:9191
+    container_name: backend
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  mysql-volume:
