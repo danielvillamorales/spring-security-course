@@ -21,17 +21,12 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.RegexRequestMatcher;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.util.Arrays;
-import java.util.List;
 
 @AllArgsConstructor
 @Configuration
 @EnableWebSecurity
 //@EnableMethodSecurity(prePostEnabled = true)
-public class HttpSecurityConfig {
+public class ResourceHttpSecurityConfig {
 
     private final AuthenticationProvider daoAuthenticationProvider;
     private final JwtAutheticationFilter jwtAutheticationFilter;
@@ -40,18 +35,6 @@ public class HttpSecurityConfig {
 
     //dinamico permisos
     private final AuthorizationManager<RequestAuthorizationContext> authorizationManager;
-
-    @Bean
-    UrlBasedCorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("https://www.google.com", "http://127.0.0.1:5500"));
-        configuration.setAllowedMethods(List.of("GET","POST","PUT","DELETE"));
-        configuration.setAllowedHeaders(List.of("*"));
-        configuration.setAllowCredentials(true);
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {

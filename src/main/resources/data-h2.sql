@@ -70,7 +70,7 @@ INSERT INTO granted_permission (role_id, operation_id) VALUES (3, 19);
 INSERT INTO auth_users (username, name, password,role_id) VALUES ('lmarquez', 'luis márquez', '$2a$10$By0u7bCnJoqi09aCmZDb4eKYZHCxqjnFnfGUtM9bs48NAe0T/2Jxu',1);
 INSERT INTO auth_users (username, name, password,role_id) VALUES ('fperez', 'fulano pérez', '$2a$10$Rc2gahAdOwNsbgDx4RhJUeEGFGWMh8ODBRuzIAkQk1PGOpJ6ThJnS',2);
 INSERT INTO auth_users (username, name, password,role_id) VALUES ('mhernandez', 'mengano hernández', '$2a$10$EBYwaswNZBTVL7YNaNpJ3uUVXhSbcRjWsT2UWoxDplHC1xVBV7npu',3);
-
+INSERT INTO auth_users (username, name, password,role_id) VALUES ('auditor', 'auditor', '$2a$10$By0u7bCnJoqi09aCmZDb4eKYZHCxqjnFnfGUtM9bs48NAe0T/2Jxu',3);
 
 INSERT INTO category (name, status) VALUES ('Electrónica', 'ENABLED');
 INSERT INTO category (name, status) VALUES ('Ropa', 'ENABLED');
